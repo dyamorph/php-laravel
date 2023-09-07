@@ -8,9 +8,9 @@
             </div>
             <h5 class="card-title my-3">{{ $product->title }}</h5>
             <p class="card-text description">{{ $product->description }}</p>
-            <p class="card-text">Manufacturer: {{ $product->manufacturer }}</p>
-            <p class="card-text">Release Date: {{ $product->release_date }} year</p>
-            <p class="card-text">Price: {{ $product->price }} BYN</p>
+            <p class="card-text">{{ __('front.manufacturer') }}: {{ $product->manufacturer }}</p>
+            <p class="card-text">{{ __('front.release_date') }}: {{ $product->release_date }}</p>
+            <p class="card-text">{{ __('front.price') }}: {{ $product->price }}</p>
         </div>
     </div>
 </div>

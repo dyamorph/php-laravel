@@ -7,10 +7,10 @@
         </div>
         <h5 class="card-title my-3">{{ $product->title }}</h5>
         <p class="card-text">{{ $product->description }}</p>
-        <p class="card-text">Manufacturer: {{ $product->manufacturer }}</p>
-        <p class="card-text">Release Date: {{ $product->release_date }} year</p>
-        <p class="card-text" data-product-price="{{ $product->price }}">Price: {{ $product->price }} BYN</p>
-        <h5>Select additional services:</h5>
+        <p class="card-text">{{ __('front.manufacturer') }}: {{ $product->manufacturer }}</p>
+        <p class="card-text">{{ __('front.release_date') }}: {{ $product->release_date }}</p>
+        <p class="card-text" data-product-price="{{ $product->price }}">{{ __('front.price') }}: {{ $product->price }}</p>
+        <h5>{{ __('front.select_services') }}:</h5>
         <form id="services" class="mb-2">
             @foreach($services as $service)
                 <label class="">
@@ -20,6 +20,9 @@
                 <br>
             @endforeach
         </form>
-        <h5><b>Final price:</b> <span id="totalPrice"></span> BYN</h5>
+        <h5><b>{{ __('front.final_price') }}:</b> <span id="totalPrice"></span></h5>
     </div>
+@endsection
+@section('scripts')
+    @vite(['resources/js/checkPrice.js'])
 @endsection

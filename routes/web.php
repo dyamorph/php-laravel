@@ -21,22 +21,7 @@ Route::get('/', [ClientController::class, 'index'])->name('client.index');
 Route::get('/{product}', [ClientController::class, 'show'])->name('client.show');
 
 Route::prefix('admin')->group(function () {
-    Route::resource('services', ServiceController::class)->names([
-        'index' => 'service.index',
-        'create' => 'service.create',
-        'store' => 'service.store',
-        'edit' => 'service.edit',
-        'update' => 'service.update',
-        'destroy' => 'service.destroy',
-    ]);
+    Route::resource('services', ServiceController::class);
 
-    Route::resource('products', ProductController::class)->names([
-        'index' => 'product.index',
-        'show' => 'product.show',
-        'create' => 'product.create',
-        'store' => 'product.store',
-        'edit' => 'product.edit',
-        'update' => 'product.update',
-        'destroy' => 'product.destroy',
-    ]);
+    Route::resource('products', ProductController::class);
 });

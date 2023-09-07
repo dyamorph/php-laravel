@@ -1,58 +1,56 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
+use App\Data\ServiceData;
 use App\Models\Service;
+use App\Repositories\Interfaces\ServiceRepositoryInterface;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class ServiceController extends Controller
 {
-    public function index()
+    public function __construct(
+        protected readonly ServiceRepositoryInterface $serviceRepository
+    ) {}
+
+    public function index(): View
     {
-        $services = Service::all();
+        $services = $this->serviceRepository->all();
 
         return view('admin.services.index', compact('services'));
     }
 
-    public function create()
+    public function create(): View
     {
         return view('admin.services.create');
     }
 
-    public function store()
+    public function store(ServiceData $data): RedirectResponse
     {
-        $service = request()->validate([
-            'title' => '',
-            'terms' => '',
-            'price' => ''
-        ]);
+        $this->serviceRepository->store($data);
 
-        Service::create($service);
-
-        return redirect()->route('service.index');
+        return redirect()->route('services.index');
     }
 
-    public function edit(Service $service)
+    public function edit(Service $service): View
     {
         return view('admin.services.edit', compact('service'));
     }
 
-    public function update(Service $service)
+    public function update(Service $service, ServiceData $data): RedirectResponse
     {
-        $data = request()->validate([
-            'title' => '',
-            'terms' => '',
-            'price' => ''
-        ]);
+        $this->serviceRepository->update($service, $data);
 
-        $service->update($data);
-
-        return redirect()->route('service.index');
+        return redirect()->route('services.index');
     }
 
-    public function destroy(Service $service)
+    public function destroy(Service $service): RedirectResponse
     {
-        $service->delete();
+        $this->serviceRepository->destroy($service);
 
-        return redirect()->route('service.index');
+        return redirect()->route('services.index');
     }
 }

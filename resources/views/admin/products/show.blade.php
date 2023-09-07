@@ -7,15 +7,15 @@
         </div>
         <h5 class="card-title my-3">{{ $product->title }}</h5>
         <p class="card-text">{{ $product->description }}</p>
-        <p class="card-text">Manufacturer: {{ $product->manufacturer }}</p>
-        <p class="card-text">Release Date: {{ $product->release_date }} year</p>
-        <p class="card-text">Price: {{ $product->price }} BYN</p>
+        <p class="card-text">{{ __('front.manufacturer') }}: {{ $product->manufacturer }}</p>
+        <p class="card-text">{{ __('front.release_date') }}: {{ $product->release_date->format('d-m-Y') }}</p>
+        <p class="card-text">{{ __('front.price') }}: {{ $product->price }}</p>
         <div class="d-flex gap-2">
-            <a class="btn btn-primary" href="{{ route('product.edit', $product->id) }}">Edit</a>
-            <form action="{{ route('product.destroy', $product->id) }}" method="post">
+            <a class="btn btn-primary" href="{{ route('products.edit', $product->id) }}">Edit</a>
+            <form action="{{ route('products.destroy', $product->id) }}" method="post">
                 @csrf
                 @method('delete')
-                <input type="submit" class="btn btn-danger" value="Delete">
+                <input type="submit" class="btn btn-danger" value="{{ __('front.delete') }}">
             </form>
         </div>
     </div>

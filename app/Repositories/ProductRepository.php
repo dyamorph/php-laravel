@@ -1,43 +1,37 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repositories;
 
-use App\Repositories\Interfaces\ProductRepositoryInterface;
+use App\Data\ProductData;
 use App\Models\Product;
+use App\Repositories\Interfaces\ProductRepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
 
 class ProductRepository implements ProductRepositoryInterface
 {
-    public function all()
+    public function all(): Collection
     {
         return Product::all();
     }
 
-    public function store($data)
+    public function store(ProductData $data): Product
     {
-        return Product::create($data);
+        return Product::create($data->all());
     }
 
-    public function find($id)
+    public function update(Product $product, ProductData $data): Product
     {
-        return Product::find($id);
+        $product->update($data->all());
+
+        return $product;
     }
 
-    public function update($data, $id)
+    public function destroy(Product $product): bool
     {
-        $product = Product::where('id', $id)->first();
-
-        $product->title = $data['title'];
-        $product->description = $data['description'];
-        $product->manufacturer = $data['manufacturer'];
-        $product->release_date = $data['release_date'];
-        $product->price = $data['price'];
-
-        $product->save();
-    }
-
-    public function destroy($id)
-    {
-        $product = Product::find($id);
         $product->delete();
+
+        return true;
     }
 }

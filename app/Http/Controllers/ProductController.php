@@ -1,79 +1,61 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
+use App\Data\ProductData;
 use App\Models\Product;
 use App\Repositories\Interfaces\ProductRepositoryInterface;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class ProductController extends Controller
 {
-    private ProductRepositoryInterface $productRepository;
+    public function __construct(
+        protected readonly ProductRepositoryInterface $productRepository
+    ) {}
 
-    public function __construct(ProductRepositoryInterface $productRepository)
-    {
-        $this->productRepository = $productRepository;
-    }
-
-    public function index()
+    public function index(): View
     {
         $products = $this->productRepository->all();
 
         return view('admin.products.index', compact('products'));
     }
 
-    public function create()
+    public function create(): View
     {
         return view('admin.products.create');
     }
 
-    public function store()
+    public function store(ProductData $data): RedirectResponse
     {
-        $product = request()->validate([
-            'title' => '',
-            'description' => '',
-            'manufacturer' => '',
-            'release_date' => '',
-            'price' => '',
-        ]);
+        $this->productRepository->store($data);
 
-        $this->productRepository->store($product);
-
-        return redirect()->route('product.index');
+        return redirect()->route('products.index');
     }
 
-    public function show(Product $product)
+    public function show(Product $product): View
     {
-        $product = $this->productRepository->find($product->id);
-
         return view('admin.products.show', compact('product'));
     }
 
-    public function edit(Product $product)
+    public function edit(Product $product): View
     {
-        $product = $this->productRepository->find($product->id);
-
         return view('admin.products.edit', compact('product'));
     }
 
-    public function update(Product $product)
+    public function update(Product $product, ProductData $data): RedirectResponse
     {
-        $data = request()->validate([
-            'title' => '',
-            'description' => '',
-            'manufacturer' => '',
-            'release_date' => '',
-            'price' => '',
-        ]);
+        $this->productRepository->update($product, $data);
 
-        $this->productRepository->update($data, $product->id);
-
-        return redirect()->route('product.show', $product->id);
+        return redirect()->route('products.show', $product);
     }
 
-    public function destroy(Product $product)
+    public function destroy(Product $product): RedirectResponse
     {
-        $this->productRepository->destroy($product->id);
+        $this->productRepository->destroy($product);
 
-        return redirect()->route('product.index');
+        return redirect()->route('products.index');
     }
 }

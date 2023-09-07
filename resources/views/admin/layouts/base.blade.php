@@ -5,8 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    @vite(['resources/scss/app.scss', 'resources/js/app.js'])
     <title>Admin</title>
 </head>
 <body>
@@ -20,16 +19,16 @@
                     <div class="collapse navbar-collapse" id="navbarNavDropdown">
                         <ul class="navbar-nav">
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="{{ route('product.index') }}">Products</a>
+                                <a class="nav-link active" aria-current="page" href="{{ route('products.index') }}">{{ __('front.products') }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="{{ route('service.index') }}">Services</a>
+                                <a class="nav-link active" aria-current="page" href="{{ route('services.index') }}">{{ __('front.services') }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('product.create') }}">Add product</a>
+                                <a class="nav-link" href="{{ route('products.create') }}">{{ __('front.add_product') }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('service.create') }}">Add service</a>
+                                <a class="nav-link" href="{{ route('services.create') }}">{{ __('front.add_service') }}</a>
                             </li>
                         </ul>
                     </div>
