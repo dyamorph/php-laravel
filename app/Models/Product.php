@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'title',
         'description',
@@ -19,9 +20,12 @@ class Product extends Model
         'price',
         'currency'
     ];
+
     protected $table = 'products';
+
+    protected $dates = ['release_date'];
+
     protected $casts = [
-        'release_date' => 'date:Y-m-d',
         'currency' => Currencies::class,
     ];
 }

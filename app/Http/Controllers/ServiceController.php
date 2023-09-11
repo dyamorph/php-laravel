@@ -6,21 +6,19 @@ namespace App\Http\Controllers;
 
 use App\Data\ServiceData;
 use App\Models\Service;
-use App\Repositories\Interfaces\ServiceRepositoryInterface;
+use App\Repositories\Interfaces\ServiceRepositoryInterface as ServiceRepository;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 class ServiceController extends Controller
 {
     public function __construct(
-        protected readonly ServiceRepositoryInterface $serviceRepository
+        protected readonly ServiceRepository $serviceRepository
     ) {}
 
     public function index(): View
     {
-        $services = $this->serviceRepository->all();
-
-        return view('admin.services.index', compact('services'));
+        return view('admin.services.index', ['services' => $this->serviceRepository->all()]);
     }
 
     public function create(): View
@@ -37,7 +35,7 @@ class ServiceController extends Controller
 
     public function edit(Service $service): View
     {
-        return view('admin.services.edit', compact('service'));
+        return view('admin.services.edit', ['service' => $service]);
     }
 
     public function update(Service $service, ServiceData $data): RedirectResponse

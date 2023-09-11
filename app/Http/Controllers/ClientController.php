@@ -6,26 +6,22 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\Service;
-use App\Repositories\Interfaces\ProductRepositoryInterface;
+use App\Repositories\Interfaces\ProductRepositoryInterface as ProductRepository;
 use Illuminate\View\View;
 
 class ClientController extends Controller
 {
     public function __construct(
-        protected readonly ProductRepositoryInterface $productRepository
+        protected readonly ProductRepository $productRepository
     ) {}
 
     public function index(): View
     {
-        $products = $this->productRepository->all();
-
-        return view('client.index', compact('products'));
+        return view('client.index', ['products' => $this->productRepository->all()]);
     }
 
     public function show(Product $product): View
     {
-        $services = Service::all();
-
-        return view('client.show', compact('product', 'services'));
+        return view('client.show', ['product' => $product, 'services' => Service::all()]);
     }
 }

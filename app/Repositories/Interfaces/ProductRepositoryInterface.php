@@ -6,11 +6,15 @@ namespace App\Repositories\Interfaces;
 
 use App\Data\ProductData;
 use App\Models\Product;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 interface ProductRepositoryInterface
 {
-    public function all();
-    public function store(ProductData $data);
-    public function update(Product $product , ProductData $data);
-    public function destroy(Product $product);
+    public function all(): LengthAwarePaginator;
+
+    public function store(ProductData $data): Product;
+
+    public function update(Product $product , ProductData $data): Product;
+
+    public function destroy(Product $product): bool;
 }

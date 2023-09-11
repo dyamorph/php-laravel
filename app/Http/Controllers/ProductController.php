@@ -6,21 +6,19 @@ namespace App\Http\Controllers;
 
 use App\Data\ProductData;
 use App\Models\Product;
-use App\Repositories\Interfaces\ProductRepositoryInterface;
+use App\Repositories\Interfaces\ProductRepositoryInterface as ProductRepository;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 class ProductController extends Controller
 {
     public function __construct(
-        protected readonly ProductRepositoryInterface $productRepository
+        protected readonly ProductRepository $productRepository
     ) {}
 
     public function index(): View
     {
-        $products = $this->productRepository->all();
-
-        return view('admin.products.index', compact('products'));
+        return view('admin.products.index', ['products' => $this->productRepository->all()]);
     }
 
     public function create(): View
@@ -37,12 +35,12 @@ class ProductController extends Controller
 
     public function show(Product $product): View
     {
-        return view('admin.products.show', compact('product'));
+        return view('admin.products.show', ['product' => $product]);
     }
 
     public function edit(Product $product): View
     {
-        return view('admin.products.edit', compact('product'));
+        return view('admin.products.edit', ['product' => $product]);
     }
 
     public function update(Product $product, ProductData $data): RedirectResponse

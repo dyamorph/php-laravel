@@ -7,13 +7,18 @@ namespace App\Repositories;
 use App\Data\ProductData;
 use App\Models\Product;
 use App\Repositories\Interfaces\ProductRepositoryInterface;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class ProductRepository implements ProductRepositoryInterface
 {
-    public function all(): Collection
+    public function all(): LengthAwarePaginator
     {
-        return Product::all();
+        $products = QueryBuilder::for(Product::class)
+            ->allowedFilters(['title', 'description', 'manufacturer', 'release_date', 'price'])
+            ->paginate(10);
+
+        return $products;
     }
 
     public function store(ProductData $data): Product
@@ -34,4 +39,6 @@ class ProductRepository implements ProductRepositoryInterface
 
         return true;
     }
+
+
 }
