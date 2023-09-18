@@ -7,6 +7,7 @@ namespace App\Repositories\Interfaces;
 use App\Data\ProductData;
 use App\Models\Product;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
 
 interface ProductRepositoryInterface
 {

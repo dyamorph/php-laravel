@@ -16,7 +16,8 @@ class ProductRepository implements ProductRepositoryInterface
     {
         $products = QueryBuilder::for(Product::class)
             ->allowedFilters(['title', 'description', 'manufacturer', 'release_date', 'price'])
-            ->paginate(10);
+            ->allowedSorts('title', 'manufacturer', 'price')
+            ->paginate(6);
 
         return $products;
     }
