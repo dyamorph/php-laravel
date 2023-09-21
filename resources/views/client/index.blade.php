@@ -10,5 +10,6 @@
                 @endforeach
             </div>
         </div>
+        {{ $products->withQueryString()->links() }}
     </div>
 @endsection
