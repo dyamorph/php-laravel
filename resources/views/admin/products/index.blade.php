@@ -2,6 +2,11 @@
 
 @section('content')
     <div class="row">
+        @if (session('message'))
+            <div class="alert alert-success">
+                {{ session('message') }}
+            </div>
+        @endif
         <aside class="col-2 p-2">
             <h3 class="p-3">Filters</h3>
             <form class="mb-4" action="#" method="get">

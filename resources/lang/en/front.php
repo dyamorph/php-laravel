@@ -20,4 +20,5 @@ return [
     'available_services' => 'Available services',
     'delete' => 'Delete',
     'select_services' => 'Select additional services',
+    'export_catalog' => 'Export catalog',
 ];

@@ -1,4 +1,13 @@
 services:
+#    localstack:
+#        image: localstack/localstack:latest
+#        ports:
+#            - '4566:4566'
+#            - '4510-4559:4510-4559'
+#        environment:
+#            - DOCKER_HOST=unix:///var/run/docker.sock
+#        volumes:
+#            - '/var/run/docker.sock:/var/run/docker.sock'
     laravel.test:
         build:
             context: ./vendor/laravel/sail/runtimes/8.2
@@ -96,6 +105,20 @@ services:
             - 'host.docker.internal:host-gateway'
         volumes:
             - '/dev/shm:/dev/shm'
+        networks:
+            - sail
+    localstack:
+        image: localstack/localstack
+        ports:
+            - "4566:4566"
+            - "4571:4571"
+        environment:
+            - SERVICES=s3,ses
+            - DEFAULT_REGION=us-east-1
+            - HOSTNAME_EXTERNAL=awslocal
+            - DATA_DIR=/tmp/localstack/data
+        volumes:
+            - "./.localstack:/tmp/localstack"
         networks:
             - sail
 networks:

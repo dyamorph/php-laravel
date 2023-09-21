@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ExportController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ServiceController;
 use Illuminate\Support\Facades\Route;
@@ -16,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::redirect('/admin', '/admin/products');
+
+Route::get('/admin/products/export', ExportController::class)->name('export');
 
 Route::get('/', [ClientController::class, 'index'])->name('client.index');
 Route::get('/{product}', [ClientController::class, 'show'])->name('client.show');
