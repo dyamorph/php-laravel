@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ServiceController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,6 +18,8 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Auth::routes();
+
 Route::redirect('/admin', '/admin/products');
 
 Route::get('/admin/products/export', ExportController::class)->name('export');
@@ -23,8 +27,12 @@ Route::get('/admin/products/export', ExportController::class)->name('export');
 Route::get('/', [ClientController::class, 'index'])->name('client.index');
 Route::get('/{product}', [ClientController::class, 'show'])->name('client.show');
 
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->middleware('auth')->group(function () {
+    Route::get('/', [AdminController::class, 'index']);
+
     Route::resource('services', ServiceController::class);
 
     Route::resource('products', ProductController::class);
 });
+
+

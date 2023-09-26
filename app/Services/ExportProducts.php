@@ -1,18 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
-use App\Repositories\ProductRepository;
+use App\Repositories\Interfaces\ProductRepositoryInterface;
 use Aws\S3\S3Client;
 use Illuminate\Http\RedirectResponse;
 use Throwable;
 
 class ExportProducts
 {
-    public function exportProducts()
+    public function __construct(
+        protected readonly ProductRepositoryInterface $productRepository
+    ) {}
+
+    public function exportProducts(): RedirectResponse
     {
-        $productRepository = new ProductRepository();
-        $products = $productRepository->all();
+        $products = $this->productRepository->all();
 
         $csvFileName = 'products_data.csv';
         $csvFilePath = storage_path('app/' . $csvFileName);
@@ -55,5 +60,6 @@ class ExportProducts
         } catch (Throwable $e) {
             echo 'Error: ' . $e->getMessage();
         }
+        return back()->with('message', 'Export failed!');
     }
 }
