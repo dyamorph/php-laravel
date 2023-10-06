@@ -8,7 +8,6 @@ use App\Data\ProductData;
 use App\Models\Product;
 use App\Repositories\Interfaces\ProductRepositoryInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Http;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class ProductRepository implements ProductRepositoryInterface
