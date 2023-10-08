@@ -10,7 +10,7 @@
             <p class="card-text description">{{ $product->description }}</p>
             <p class="card-text">{{ __('front.manufacturer') }}: {{ $product->manufacturer }}</p>
             <p class="card-text">{{ __('front.release_date') }}: {{ $product->release_date }}</p>
-            <p class="card-text">{{ __('front.price') }}: {{ $product->price }}</p>
+            <p class="card-text">{{ __('front.price') }}: {{ $product->price }} {{ $currency }}</p>
         </div>
     </div>
 </div>

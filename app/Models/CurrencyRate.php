@@ -7,5 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class CurrencyRate extends Model
 {
-    use HasFactory;
+    protected $fillable = [
+            'currency',
+            'rate',
+            'code',
+        ];
+
+    protected $table = 'currency_rates';
 }
