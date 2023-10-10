@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Http\Middleware\Authenticate;
 use App\Models\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -12,7 +13,9 @@ class ProductControllerTest extends TestCase
 
     public function testIndex()
     {
-        $response = $this->get(route('product.index'));
+        $this->withoutMiddleware([Authenticate::class]);
+
+        $response = $this->get(route('products.index'));
 
         $response->assertStatus(200)
             ->assertViewIs('admin.products.index')
@@ -21,7 +24,8 @@ class ProductControllerTest extends TestCase
 
     public function testCreate()
     {
-        $response = $this->get(route('product.create'));
+        $this->withoutMiddleware([Authenticate::class]);
+        $response = $this->get(route('products.create'));
 
         $response->assertStatus(200)
             ->assertViewIs('admin.products.create');
@@ -29,6 +33,8 @@ class ProductControllerTest extends TestCase
 
     public function testStore()
     {
+        $this->withoutMiddleware([Authenticate::class]);
+
         $productData = [
             'title' => 'Test Product',
             'description' => 'This is a test product',
@@ -37,19 +43,21 @@ class ProductControllerTest extends TestCase
             'price' => 100,
         ];
 
-        $response = $this->post(route('product.store'), $productData);
+        $response = $this->post(route('products.store'), $productData);
 
         $this->assertDatabaseHas('products', $productData);
 
         $response->assertStatus(302)
-            ->assertRedirect(route('product.index'));
+            ->assertRedirect(route('products.index'));
     }
 
     public function testShow()
     {
+        $this->withoutMiddleware([Authenticate::class]);
+
         $product = Product::factory()->create();
 
-        $response = $this->get(route('product.show', $product->id));
+        $response = $this->get(route('products.show', $product->id));
 
         $response->assertStatus(200)
             ->assertViewIs('admin.products.show')
@@ -58,9 +66,11 @@ class ProductControllerTest extends TestCase
 
     public function testEdit()
     {
+        $this->withoutMiddleware([Authenticate::class]);
+
         $product = Product::factory()->create();
 
-        $response = $this->get(route('product.edit', $product->id));
+        $response = $this->get(route('products.edit', $product->id));
 
         $response->assertStatus(200)
             ->assertViewIs('admin.products.edit')
@@ -69,6 +79,8 @@ class ProductControllerTest extends TestCase
 
     public function testUpdate()
     {
+        $this->withoutMiddleware([Authenticate::class]);
+
         $product = Product::factory()->create();
         $newData = [
             'title' => 'Updated Title',
@@ -78,23 +90,25 @@ class ProductControllerTest extends TestCase
             'price' => 200.00,
         ];
 
-        $response = $this->put(route('product.update', $product->id), $newData);
+        $response = $this->put(route('products.update', $product->id), $newData);
 
         $this->assertDatabaseHas('products', $newData);
 
         $response->assertStatus(302)
-            ->assertRedirect(route('product.show', $product->id));
+            ->assertRedirect(route('products.show', $product->id));
     }
 
     public function testDestroy()
     {
+        $this->withoutMiddleware([Authenticate::class]);
+
         $product = Product::factory()->create();
 
-        $response = $this->delete(route('product.destroy', $product->id));
+        $response = $this->delete(route('products.destroy', $product->id));
 
         $this->assertDatabaseMissing('products', ['id' => $product->id]);
 
         $response->assertStatus(302)
-            ->assertRedirect(route('product.index'));
+            ->assertRedirect(route('products.index'));
     }
 }
