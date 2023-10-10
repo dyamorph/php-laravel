@@ -21,7 +21,6 @@ jobs:
 
       - name: Install dependencies
         run: composer install
-        working-directory: ./php-laravel
 
       - name: Run tests
         env:
@@ -35,4 +34,3 @@ jobs:
           ./vendor/bin/sail up -d
           ./vendor/bin/sail php artisan test
           ./vendor/bin/sail down
-        working-directory: ./php-laravel
