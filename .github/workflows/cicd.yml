@@ -32,7 +32,7 @@ jobs:
 
 
       - name: Copy env file
-        run: cp .env.example .env
+        run: cp .env.ci .env
 
       - name: Change permissions
         run: chmod 777 -R storage bootstrap/cache
@@ -48,7 +48,7 @@ jobs:
         run: ./vendor/bin/sail php artisan key:generate
 
       - name: Run Laravel Tests
-        run: ./vendor/bin/sail php artisan test
+        run: ./vendor/bin/sail test
         env:
           DB_DATABASE: php_laravel
 
