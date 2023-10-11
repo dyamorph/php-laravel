@@ -60,15 +60,3 @@ jobs:
           MYSQL_DATABASE: php_laravel
         ports:
           - 3307:3307
-#      - name: Run tests
-#        env:
-#          DB_CONNECTION: mysql
-#          DB_PORT: 3306
-#          DB_DATABASE: php_laravel
-#          DB_USERNAME: sail
-#          DB_PASSWORD: password
-#        run: |
-#          php artisan config:clear
-#          ./vendor/bin/sail up -d
-#          ./vendor/bin/sail php artisan test
-#          ./vendor/bin/sail down
