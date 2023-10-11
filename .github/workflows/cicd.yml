@@ -2,43 +2,44 @@ name: Laravel Sail CI
 
 on:
   push:
-  branches:
-    - task4.6
+    branches:
+      - task4.6
 
 jobs:
   build:
-  runs-on: ubuntu-latest
+    name: Run tests
+    runs-on: ubuntu-latest
 
-  steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
 
-    - name: Set up PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: '8.1'
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
 
-    - name: Install Composer Dependencies
-      run: composer install --no-interaction
+      - name: Install Composer Dependencies
+        run: composer install --no-interaction
 
-    - name: Copy Environment File
-      run: cp .env.example .env
+      - name: Copy Environment File
+        run: cp .env.example .env
 
-    - name: Change permissions
-      run: chmod 777 -R storage bootstrap/cache
+      - name: Change permissions
+        run: chmod 777 -R storage bootstrap/cache
 
-    - name: Start Laravel Sail
-      run: |
-        ./vendor/bin/sail up -d
+      - name: Start Laravel Sail
+        run: |
+          ./vendor/bin/sail up -d
 
-    - name: Wait for Sail to Start
-      run: sleep 30
+      - name: Wait for Sail to Start
+        run: sleep 30
 
-    - name: Generate Application Key
-      run: ./vendor/bin/sail artisan key:generate
+      - name: Generate Application Key
+        run: ./vendor/bin/sail artisan key:generate
 
-    - name: Run Laravel Tests
-      run: ./vendor/bin/sail test
+      - name: Run Laravel Tests
+        run: ./vendor/bin/sail test
 
 #name: CI/CD
 #
