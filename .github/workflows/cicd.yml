@@ -40,6 +40,7 @@ jobs:
       - name: Start Laravel Sail
         run: |
           ./vendor/bin/sail up -d
+          ./vendor/bin/sail npm run dev
 
       - name: Wait for Sail to Start
         run: sleep 30
@@ -48,6 +49,8 @@ jobs:
         run: |
           php artisan config:clear
           ./vendor/bin/sail test
+        env:
+          DB_DATABASE: php_laravel
 
     services:
       mysql:
