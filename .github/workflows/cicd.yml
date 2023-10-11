@@ -40,7 +40,7 @@ jobs:
       - name: Start Laravel Sail
         run: |
           ./vendor/bin/sail up -d
-          ./vendor/bin/sail npm run dev
+          ./vendor/bin/sail npm install && npm run dev
 
       - name: Wait for Sail to Start
         run: sleep 30
