@@ -20,17 +20,35 @@ jobs:
           php-version: '8.1'
 
       - name: Install dependencies
-        run: composer install
+        run: composer install --no-interaction
 
-      - name: Run tests
-        env:
-          DB_CONNECTION: mysql
-          DB_PORT: 3306
-          DB_DATABASE: php_laravel
-          DB_USERNAME: sail
-          DB_PASSWORD: password
+      - name: Copy env file
+        run: cp .env.example .env
+
+      - name: Change permissions
+        run: chmod 777 -R storage bootstrap/cache
+
+      - name: Start Laravel Sail
         run: |
-          php artisan config:clear
           ./vendor/bin/sail up -d
-          ./vendor/bin/sail php artisan test
-          ./vendor/bin/sail down
+
+      - name: Wait for Sail to Start
+        run: sleep 30
+
+      - name: Generate Application Key
+        run: ./vendor/bin/sail php artisan key:generate
+
+      - name: Run Laravel Tests
+        run: ./vendor/bin/sail php artisan test
+#      - name: Run tests
+#        env:
+#          DB_CONNECTION: mysql
+#          DB_PORT: 3306
+#          DB_DATABASE: php_laravel
+#          DB_USERNAME: sail
+#          DB_PASSWORD: password
+#        run: |
+#          php artisan config:clear
+#          ./vendor/bin/sail up -d
+#          ./vendor/bin/sail php artisan test
+#          ./vendor/bin/sail down
