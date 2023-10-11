@@ -1,62 +1,103 @@
-name: CI/CD
+name: Laravel Sail CI
 
 on:
   push:
-    branches:
-      - task4.6
+  branches:
+    - task4.6
 
 jobs:
-  test:
-    name: Run tests
-    runs-on: ubuntu-latest
+  build:
+  runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+  steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
 
-      - name: Install PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.1'
+    - name: Set up PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.1'
 
-      - name: Cache dependencies
-        uses: actions/cache@v2
-        with:
-          path: vendor
-          key: composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            composer-
+    - name: Install Composer Dependencies
+      run: composer install --no-interaction
 
-      - name: Install dependencies
-        run: composer install --no-interaction
+    - name: Copy Environment File
+      run: cp .env.example .env
 
+    - name: Change permissions
+      run: chmod 777 -R storage bootstrap/cache
 
-      - name: Copy env file
-        run: cp .env.ci .env
+    - name: Start Laravel Sail
+      run: |
+        ./vendor/bin/sail up -d
 
-      - name: Change permissions
-        run: chmod 777 -R storage bootstrap/cache
+    - name: Wait for Sail to Start
+      run: sleep 30
 
-      - name: Start Laravel Sail
-        run: |
-          ./vendor/bin/sail up -d
-          ./vendor/bin/sail npm install && npm run dev
+    - name: Generate Application Key
+      run: ./vendor/bin/sail artisan key:generate
 
-      - name: Wait for Sail to Start
-        run: sleep 30
+    - name: Run Laravel Tests
+      run: ./vendor/bin/sail test
 
-      - name: Run Laravel Tests
-        run: |
-          php artisan config:clear
-          ./vendor/bin/sail test
-        env:
-          DB_DATABASE: php_laravel
-
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: 1
-          MYSQL_DATABASE: php_laravel
-        ports:
-          - 3307:3307
+#name: CI/CD
+#
+#on:
+#  push:
+#    branches:
+#      - task4.6
+#
+#jobs:
+#  test:
+#    name: Run tests
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v2
+#
+#      - name: Install PHP
+#        uses: shivammathur/setup-php@v2
+#        with:
+#          php-version: '8.1'
+#
+#      - name: Cache dependencies
+#        uses: actions/cache@v2
+#        with:
+#          path: vendor
+#          key: composer-${{ hashFiles('**/composer.lock') }}
+#          restore-keys: |
+#            composer-
+#
+#      - name: Install dependencies
+#        run: composer install --no-interaction
+#
+#
+#      - name: Copy env file
+#        run: cp .env.ci .env
+#
+#      - name: Change permissions
+#        run: chmod 777 -R storage bootstrap/cache
+#
+#      - name: Start Laravel Sail
+#        run: |
+#          ./vendor/bin/sail up -d
+#
+#      - name: Wait for Sail to Start
+#        run: sleep 30
+#
+#      - name: Run Laravel Tests
+#        run: |
+#          php artisan config:clear
+#          ./vendor/bin/sail test
+#        env:
+#          DB_DATABASE: php_laravel
+#
+#    services:
+#      mysql:
+#        image: mysql:8.0
+#        env:
+#          MYSQL_ALLOW_EMPTY_PASSWORD: 1
+#          MYSQL_DATABASE: php_laravel
+#        ports:
+#          - 3307:3307
