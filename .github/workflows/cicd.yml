@@ -19,8 +19,17 @@ jobs:
         with:
           php-version: '8.1'
 
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: vendor
+          key: composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            composer-
+
       - name: Install dependencies
         run: composer install --no-interaction
+
 
       - name: Copy env file
         run: cp .env.example .env
@@ -40,6 +49,17 @@ jobs:
 
       - name: Run Laravel Tests
         run: ./vendor/bin/sail php artisan test
+        env:
+          DB_DATABASE: php_laravel
+
+    services:
+      mysql:
+        image: mysql/mysql-server:8.0
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: 1
+          MYSQL_DATABASE: php_laravel
+        ports:
+          - 3306:3306
 #      - name: Run tests
 #        env:
 #          DB_CONNECTION: mysql
