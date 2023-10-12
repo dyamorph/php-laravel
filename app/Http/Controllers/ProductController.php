@@ -18,7 +18,6 @@ class ProductController extends Controller
 
     public function index(): View
     {
-        dd($_ENV);
         return view('admin.products.index', ['products' => $this->productRepository->all()]);
     }
 
