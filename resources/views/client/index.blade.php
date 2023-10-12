@@ -6,7 +6,7 @@
         <div class="card-deck equal-height-cards">
             <div class="row">
                 @foreach($products as $product)
-                    @include('client.product', ['product' => $product])
+                    @include('client.product', ['product' => $product, 'currency' => $currency])
                 @endforeach
             </div>
         </div>

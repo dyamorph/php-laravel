@@ -1,0 +1,43 @@
+name: Laravel Sail CI
+
+on:
+  push:
+    branches:
+      - task4.6
+
+jobs:
+  build:
+    name: Run tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+
+      - name: Install Composer Dependencies
+        run: composer install --no-interaction
+
+      - name: Copy Environment File
+        run: cp .env.example .env
+
+      - name: Start Laravel Sail
+        run: |
+          ./vendor/bin/sail up -d
+          ./vendor/bin/sail npm install && npm run build
+
+      - name: Update DB_HOST in .env
+        run: |
+          container_name="php-laravel-mysql-1"
+          container_ip=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $container_name)
+          sed -i "s/^DB_HOST=.*/DB_HOST=$container_ip/" .env
+
+      - name: Generate Application Key
+        run: ./vendor/bin/sail artisan key:generate
+
+      - name: Run Laravel Tests
+        run: ./vendor/bin/sail test

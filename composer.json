@@ -13,7 +13,8 @@
         "laravel/tinker": "^2.8",
         "laravel/ui": "^4.2",
         "spatie/laravel-data": "^3.8",
-        "spatie/laravel-query-builder": "^5.3"
+        "spatie/laravel-query-builder": "^5.3",
+        "ext-simplexml": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
