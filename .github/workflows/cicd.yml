@@ -33,9 +33,6 @@ jobs:
           ./vendor/bin/sail up -d
           ./vendor/bin/sail npm install && npm run build
 
-      - name: Wait for Sail to Start
-        run: sleep 30
-
       - name: Update DB_HOST in .env
         run: |
           container_name="php-laravel-mysql-1"
