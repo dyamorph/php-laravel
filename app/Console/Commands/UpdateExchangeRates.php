@@ -9,10 +9,10 @@ class UpdateExchangeRates extends Command
 {
     protected $signature = 'app:fetch-exchange-rates';
 
-    protected $description = 'Command description';
+    protected $description = 'Update exchange rates';
 
     public function handle(): void
     {
-        FetchExchangeRates::fetchRates();
+        (new FetchExchangeRates)->fetchRates();
     }
 }

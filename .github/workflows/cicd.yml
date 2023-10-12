@@ -25,9 +25,6 @@ jobs:
       - name: Copy Environment File
         run: cp .env.example .env
 
-#      - name: Change permissions
-#        run: chmod 777 -R storage bootstrap/cache
-
       - name: Start Laravel Sail
         run: |
           ./vendor/bin/sail up -d

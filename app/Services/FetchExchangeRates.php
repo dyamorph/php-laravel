@@ -8,7 +8,7 @@ use Throwable;
 
 class FetchExchangeRates
 {
-    public static function fetchRates(): void
+    public function fetchRates(): void
     {
         $response = Http::get('https://bankdabrabyt.by/export_courses.php');
         if ($response->successful()) {
