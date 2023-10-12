@@ -35,6 +35,12 @@ jobs:
       - name: Wait for Sail to Start
         run: sleep 30
 
+      - name: Update DB_HOST in .env
+        run: |
+          container_name="db"
+          container_ip=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $container_name)
+          sed -i "s/^DB_HOST=.*/DB_HOST=$container_ip/" .env
+
       - name: Generate Application Key
         run: ./vendor/bin/sail artisan key:generate
 
