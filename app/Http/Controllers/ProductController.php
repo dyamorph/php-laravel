@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Data\ProductData;
+use App\Enums\Currencies;
 use App\Models\Product;
 use App\Repositories\Interfaces\ProductRepositoryInterface as ProductRepository;
 use Illuminate\Http\RedirectResponse;
@@ -13,12 +14,13 @@ use Illuminate\View\View;
 class ProductController extends Controller
 {
     public function __construct(
-        protected readonly ProductRepository $productRepository
+        protected readonly ProductRepository $productRepository,
     ) {}
 
     public function index(): View
     {
-        return view('admin.products.index', ['products' => $this->productRepository->all()]);
+        $currency = Currencies::BYN;
+        return view('admin.products.index', ['products' => $this->productRepository->all(), 'currency' => $currency]);
     }
 
     public function create(): View
@@ -35,7 +37,8 @@ class ProductController extends Controller
 
     public function show(Product $product): View
     {
-        return view('admin.products.show', ['product' => $product]);
+        $currency = Currencies::BYN;
+        return view('admin.products.show', ['product' => $product, 'currency' => $currency]);
     }
 
     public function edit(Product $product): View
