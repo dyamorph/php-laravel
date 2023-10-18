@@ -12,8 +12,10 @@ class SendEmail
     {
         $sender = 'localstack@gmail.com';
         $recipient = 'admin@gmail.com';
-        $subject = 'Export products';
-        $body = 'Products catalog export successfully!';
+        $html_body = '<h1>Products catalog export successfully!</h1>';
+        $subject = 'Products export';
+        $plaintext_body = 'Products catalog export successfully!';
+        $char_set = 'UTF-8';
 
         $sesClient = new SesClient([
             'version' => 'latest',
@@ -29,18 +31,26 @@ class SendEmail
         $sesClient->verifyEmailAddress(['EmailAddress' => 'localstack@gmail.com']);
 
         $sesClient->sendEmail([
-            'Source' => $sender,
             'Destination' => [
                 'ToAddresses' => [$recipient],
             ],
+            'ReplyToAddresses' => [$sender],
+            'Source' => $sender,
             'Message' => [
-                'Subject' => [
-                    'Data' => $subject,
-                ],
+
                 'Body' => [
-                    'Text' => [
-                        'Data' => $body,
+                    'Html' => [
+                        'Charset' => $char_set,
+                        'Data' => $html_body,
                     ],
+                    'Text' => [
+                        'Charset' => $char_set,
+                        'Data' => $plaintext_body,
+                    ],
+                ],
+                'Subject' => [
+                    'Charset' => $char_set,
+                    'Data' => $subject,
                 ],
             ],
         ]);
