@@ -22,11 +22,11 @@ class FetchExchangeRates
                 $value = $values[$i];
                 $iso = (string)$value['iso'];
                 $code = (int)$value['code'];
-                $buy = (float)$value['buy'];
+                $sale = (float)$value['sale'];
 
                 DB::table('currency_rates')->updateOrInsert(
                     ['currency' => $iso, 'code' => $code],
-                    ['rate' => $buy]
+                    ['rate' => $sale]
                 );
             }
         }

@@ -28,4 +28,9 @@ class Product extends Model
     protected $casts = [
         'currency' => Currencies::class,
     ];
+
+    public function services()
+    {
+        return $this->belongsToMany(Service::class, 'product_service', 'product_id', 'service_id');
+    }
 }
