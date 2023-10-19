@@ -19,8 +19,7 @@ class ProductController extends Controller
 
     public function index(): View
     {
-        $currency = Currencies::BYN;
-        return view('admin.products.index', ['products' => $this->productRepository->all(), 'currency' => $currency]);
+        return view('admin.products.index', ['products' => $this->productRepository->all(), 'currency' => Currencies::BYN]);
     }
 
     public function create(): View
@@ -37,8 +36,7 @@ class ProductController extends Controller
 
     public function show(Product $product): View
     {
-        $currency = Currencies::BYN;
-        return view('admin.products.show', ['product' => $product, 'currency' => $currency]);
+        return view('admin.products.show', ['product' => $product, 'currency' => Currencies::BYN]);
     }
 
     public function edit(Product $product): View

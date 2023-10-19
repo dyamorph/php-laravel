@@ -46,8 +46,7 @@ class ExportProductsToRabbitMQ implements ShouldQueue
                 'SourceFile' => $this->csvFilePath,
             ]);
 
-            $emailService = new SendEmail();
-            $emailService->sendEmail();
+            (new SendEmail())->sendEmail();
         }
     }
 }

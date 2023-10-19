@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Enums\Currencies;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Product extends Model
 {
@@ -23,13 +24,13 @@ class Product extends Model
 
     protected $table = 'products';
 
-    protected $dates = ['release_date'];
+    protected array $dates = ['release_date'];
 
     protected $casts = [
         'currency' => Currencies::class,
     ];
 
-    public function services()
+    public function services(): BelongsToMany
     {
         return $this->belongsToMany(Service::class, 'product_service', 'product_id', 'service_id');
     }

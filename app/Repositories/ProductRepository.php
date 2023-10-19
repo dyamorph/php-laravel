@@ -14,12 +14,10 @@ class ProductRepository implements ProductRepositoryInterface
 {
     public function all(): LengthAwarePaginator
     {
-        $products = QueryBuilder::for(Product::class)
+        return QueryBuilder::for(Product::class)
             ->allowedFilters(['title', 'description', 'manufacturer', 'release_date', 'price'])
             ->allowedSorts('title', 'manufacturer', 'price')
             ->paginate(6);
-
-        return $products;
     }
 
     public function store(ProductData $data): Product

@@ -12,10 +12,10 @@ class SendEmail
     {
         $sender = 'localstack@gmail.com';
         $recipient = 'admin@gmail.com';
-        $html_body = '<h1>Products catalog export successfully!</h1>';
+        $htmlBody = '<h1>Products catalog export successfully!</h1>';
         $subject = 'Products export';
-        $plaintext_body = 'Products catalog export successfully!';
-        $char_set = 'UTF-8';
+        $plaintextBody = 'Products catalog export successfully!';
+        $charSet = 'UTF-8';
 
         $sesClient = new SesClient([
             'version' => 'latest',
@@ -40,16 +40,16 @@ class SendEmail
 
                 'Body' => [
                     'Html' => [
-                        'Charset' => $char_set,
-                        'Data' => $html_body,
+                        'Charset' => $charSet,
+                        'Data' => $htmlBody,
                     ],
                     'Text' => [
-                        'Charset' => $char_set,
-                        'Data' => $plaintext_body,
+                        'Charset' => $charSet,
+                        'Data' => $plaintextBody,
                     ],
                 ],
                 'Subject' => [
-                    'Charset' => $char_set,
+                    'Charset' => $charSet,
                     'Data' => $subject,
                 ],
             ],
