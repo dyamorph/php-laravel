@@ -25,6 +25,7 @@ services:
             - mysql
             - redis
             - mailpit
+            - rabbitmq
     mysql:
         image: 'mysql/mysql-server:8.0'
         ports:
@@ -49,6 +50,16 @@ services:
                 - '-p${DB_PASSWORD}'
             retries: 3
             timeout: 5s
+    rabbitmq:
+        image: 'rabbitmq:3-management'
+        ports:
+            - '5672:5672'
+            - '15672:15672'
+        environment:
+            RABBITMQ_DEFAULT_USER: '${RABBITMQ_USER}'
+            RABBITMQ_DEFAULT_PASS: '${RABBITMQ_PASSWORD}'
+        networks:
+            - sail
     redis:
         image: 'redis:alpine'
         ports:

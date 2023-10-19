@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use Illuminate\Support\Facades\DB;
@@ -20,11 +22,11 @@ class FetchExchangeRates
                 $value = $values[$i];
                 $iso = (string)$value['iso'];
                 $code = (int)$value['code'];
-                $buy = (float)$value['buy'];
+                $sale = (float)$value['sale'];
 
                 DB::table('currency_rates')->updateOrInsert(
                     ['currency' => $iso, 'code' => $code],
-                    ['rate' => $buy]
+                    ['rate' => $sale]
                 );
             }
         }

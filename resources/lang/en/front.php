@@ -22,5 +22,8 @@ return [
     'select_services' => 'Select additional services',
     'export_catalog' => 'Export catalog',
     'admin_panel' => "Admin panel",
-    'you_are_logged' => 'You are logged in!'
+    'you_are_logged' => 'You are logged in!',
+    'apply_filters' => 'Apply filters',
+    'filters' => 'Filters',
+    'sorting' => 'Sorting'
 ];

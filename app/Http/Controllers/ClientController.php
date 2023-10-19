@@ -19,21 +19,16 @@ class ClientController extends Controller
 
     public function index(): View
     {
-        $currency = Currencies::BYN;
-
-        return view('client.index', ['products' => $this->productRepository->all(), 'currency' => $currency]);
+        return view('client.index', ['products' => $this->productRepository->all(), 'currency' => Currencies::BYN]);
     }
 
     public function show(Product $product): View
     {
-        $currency = Currencies::BYN;
-        $currencyRates = CurrencyRate::all();
-
         return view('client.show', [
             'product' => $product,
             'services' => Service::all(),
-            'currency' => $currency,
-            'rates' => $currencyRates
+            'currency' => Currencies::BYN,
+            'rates' => CurrencyRate::all()
         ]);
     }
 }
